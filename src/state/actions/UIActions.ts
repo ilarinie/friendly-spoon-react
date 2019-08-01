@@ -30,5 +30,19 @@ export const SetUserProfile = (userProfile: UserProfile): UIAction => {
     };
 };
 
+export const SET_SEARCH_TERM = 'SET_SEARCH_TERM';
 
-export type UIAction = SetLoginStatusAction | SetUserProfileAction;
+interface SetSearchTermAction extends Action {
+  type: typeof SET_SEARCH_TERM;
+  searchTerm: string;
+}
+
+export const SetSearchTerm = (searchTerm: string): UIAction => {
+    return {
+        type: SET_SEARCH_TERM,
+        searchTerm,
+    };
+};
+
+
+export type UIAction = SetLoginStatusAction | SetUserProfileAction | SetSearchTermAction;

@@ -1,10 +1,13 @@
-import React, { useState, ChangeEvent, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useField } from '../hooks/UseField';
 import { Typography, TextField, Box, makeStyles, Button, Fade } from '@material-ui/core';
-import { doLogin } from '../services/ApiService';
+import { doLogin, doGet } from '../services/ApiService';
 import { BeatLoader } from 'react-spinners';
 import { useDispatch } from 'react-redux';
 import { LOGIN_STATUS } from '../state/types/LoginStatus';
 import { SetLoginStatus } from '../state/actions/UIActions';
+import { SetRecipeList } from '../state/actions/DomainActions';
+import { RecipeMeta } from '../state/types/RecipeMeta';
 
 const useStyles = makeStyles({
   box: {
@@ -32,13 +35,6 @@ export const Login: React.FC<{history: any}> = ({history}) => {
   const [ fadeIn, setFadeIn ] = useState(true);
 
   const dispatch = useDispatch();
-
-  const useField = (type: string, placeholder: string )=> {
-    const [value, setValue] = useState('')
-    const onChange = (event: ChangeEvent<HTMLInputElement>) => setValue(event.currentTarget.value)
-    return { type, value, onChange, placeholder }
-  }
-
   const email = useField('string', 'Email address');
   const password = useField('password','Password');
 
@@ -50,13 +46,15 @@ export const Login: React.FC<{history: any}> = ({history}) => {
     setSubmitEnabled((email.value !== '' && password.value !== ''));
   }, [email.value, password.value])
 
-  const submitLogin = async () => {
+  const submitLogin = async (event: any) => {
+    event.preventDefault();
     if (!submitEnabled) {
       return;
     }
     setLoadingState(true);
     try {
       await doLogin(email.value, password.value);
+      dispatch(SetRecipeList(await doGet<RecipeMeta[]>('/recipes')))
       setFadeIn(false);
       setLoadingState(false);
       setTimeout(() => {

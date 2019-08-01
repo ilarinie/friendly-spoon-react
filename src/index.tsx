@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { createMuiTheme } from '@material-ui/core';
-import { indigo, pink, red } from '@material-ui/core/colors';
+import { indigo, pink, red, green } from '@material-ui/core/colors';
 import { ThemeProvider } from '@material-ui/styles';
 import { makeStore } from './state/Store';
 import { Provider } from 'react-redux';
@@ -12,7 +12,9 @@ import { BrowserRouter, Route } from 'react-router-dom';
 
 export const theme = createMuiTheme({
     palette: {
-        primary: indigo,
+        primary: {
+          main: '#004d40',
+        },
         secondary: pink,
         error: red,
         // Used by `getContrastText()` to maximize the contrast between the background and
@@ -40,3 +42,4 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.register();
+ 

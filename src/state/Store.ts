@@ -8,6 +8,7 @@ import { AppAction } from './actions';
 export interface UIState {
   loginStatus: LOGIN_STATUS;
   userProfile: UserProfile | null;
+  searchTerm: string;
 }
 
 export interface DomainState {

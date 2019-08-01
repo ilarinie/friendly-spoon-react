@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles, Box, Typography, Fade } from '@material-ui/core';
+import { makeStyles, Box, Typography, Fade, Theme, createStyles } from '@material-ui/core';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => createStyles({
   box: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     height: '100%',
     alignItems: 'center',
-    textAlign: 'center'
+    textAlign: 'center',
+    background: theme.palette.primary.main,
+    width: '100vw',
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    color: theme.palette.primary.contrastText
   }
-})
+}));
 
 
 export const WelcomeScreen: React.FC = () => {
