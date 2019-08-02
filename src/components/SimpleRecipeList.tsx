@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { State } from '../state/Store';
 import { Fade, makeStyles, Box, Typography, TextField, BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import { RecipeMeta } from '../state/types/RecipeMeta';
-import { useField } from '../hooks/UseField';
 import { Restore, Favorite, LocationOn } from '@material-ui/icons';
 
 const useStyles = makeStyles({

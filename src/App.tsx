@@ -116,7 +116,7 @@ const App: React.FC<{history: any}> = ({history}) => {
                 </div>
               </Toolbar>
             </AppBar>
-            <div style={{ paddingTop: '75px'}}>
+            <div style={{ paddingTop: '75px', height: '100vh'}}>
               <Switch>
                 <Route exact path="/" component={SimpleRecipeList} />
                 <Route path="/recipes/:id" component={RecipeDetails} />
