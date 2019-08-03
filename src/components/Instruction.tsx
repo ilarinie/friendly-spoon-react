@@ -1,10 +1,14 @@
 import React from 'react';
 import { Box, Typography } from '@material-ui/core';
+import { useStyles } from './IngredientList';
 
 export const Instruction: React.FC<{instructionHTML: string}> = ({instructionHTML}) => {
 
+  const classes = useStyles();
+
   return (
-    <Box style={{ height: 'calc(100vh - 150px)', overflow: 'auto'}}>
+
+    <Box className={classes.box}>
       <Typography variant="h3">Instruction</Typography>
       <div dangerouslySetInnerHTML={{ __html: instructionHTML}} />
     </Box>

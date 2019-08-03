@@ -1,11 +1,21 @@
 import React from 'react';
 import { RecipeFull } from '../state/types/RecipeFull';
-import { Box, Typography } from '@material-ui/core';
+import { Box, Typography, makeStyles } from '@material-ui/core';
+
+export const useStyles = makeStyles({
+  box: {
+    height: '100%',
+    overflowY: 'auto',
+    overflowX: 'hidden'
+  }
+})
 
 export const IngredientList: React.FC<{recipe: RecipeFull}> = ({ recipe }) => {
 
+  const classes = useStyles();
+
   return (
-    <Box>
+    <Box className={classes.box}>
       <Typography variant="h3">IngredientList</Typography>
       <ul>
         {recipe.recipe_ingredients.map((ingredient, index) => (
