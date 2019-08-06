@@ -19,21 +19,21 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 }));
 
 
-export const WelcomeScreen: React.FC = () => {
+export const WelcomeScreen: React.FC<{ timeout: number }> = ({ timeout }) => {
   const classes = useStyles();
 
   const [ fadeIn, setFadeIn ] = useState(true);
 
   useEffect(() => {
     const waitAWhile = async () => {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, timeout / 1.5 ));
       setFadeIn(false);
     }
     waitAWhile();
   }, []);
 
   return (
-    <Fade in={fadeIn} timeout={600} mountOnEnter={true}>
+    <Fade in={fadeIn} timeout={timeout / 3} mountOnEnter={true}>
       <Box className={classes.box}>
         <Typography variant="h2">Welcome</Typography>
         <Typography variant="h2">To</Typography>

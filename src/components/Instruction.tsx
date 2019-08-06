@@ -9,7 +9,7 @@ export const Instruction: React.FC<{instructionHTML: string}> = ({instructionHTM
   return (
 
     <Box className={classes.box}>
-      <Typography variant="h3">Instruction</Typography>
+      <Typography variant="h4">Instruction</Typography>
       <div dangerouslySetInnerHTML={{ __html: instructionHTML}} />
     </Box>
   );

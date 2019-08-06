@@ -18,9 +18,10 @@ import { Search } from '@material-ui/icons';
 import { fade } from '@material-ui/core/styles';
 import { useField } from './hooks/UseField';
 
+const WELCOME_SCREEN_TIMEOUT_MS = 1000;
 
 const addMinimumTime = async (): Promise<any> => {
-  return new Promise(resolve => setTimeout(resolve, 1500))
+  return new Promise(resolve => setTimeout(resolve, WELCOME_SCREEN_TIMEOUT_MS))
 }
 
 const useStyles = makeStyles((theme: Theme) => 
@@ -73,12 +74,16 @@ const App: React.FC<{history: any}> = ({history}) => {
   useEffect(() => {
     dispatch(SetSearchTerm(searchTerm.value));
   }, [ searchTerm ])
+
+  const fetchRecipes = async () => {
+    dispatch(SetRecipeList(await doGet<RecipeMeta[]>('/recipes')))
+  }
   
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
         await validateLogin();
-        dispatch(SetRecipeList(await doGet<RecipeMeta[]>('/recipes')))
+        fetchRecipes();
         await addMinimumTime();
         dispatch(SetLoginStatus(LOGIN_STATUS.LOGGED_IN));
       } catch (err) {
@@ -92,7 +97,7 @@ const App: React.FC<{history: any}> = ({history}) => {
   return (
     <Container className={classes.container}>
       <CssBaseline />
-          { loginStatus === LOGIN_STATUS.CHECKING && <WelcomeScreen /> }
+          { loginStatus === LOGIN_STATUS.CHECKING && <WelcomeScreen timeout={WELCOME_SCREEN_TIMEOUT_MS} /> }
           { loginStatus === LOGIN_STATUS.LOGGED_OUT&& <Route component={Login} />}
           { loginStatus === LOGIN_STATUS.LOGGED_IN &&
           <>
@@ -116,7 +121,7 @@ const App: React.FC<{history: any}> = ({history}) => {
                 </div>
               </Toolbar>
             </AppBar>
-            <div style={{ paddingTop: '75px', height: '100vh'}}>
+            <div style={{ paddingTop: '60px', height: '100vh'}}>
               <Switch>
                 <Route exact path="/" component={SimpleRecipeList} />
                 <Route path="/recipes/:id" component={RecipeDetails} />

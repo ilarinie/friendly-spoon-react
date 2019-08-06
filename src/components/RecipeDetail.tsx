@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { doGet } from '../services/ApiService';
 import { RecipeFull } from '../state/types/RecipeFull';
-import { Box, BottomNavigation, BottomNavigationAction, makeStyles, createStyles, useScrollTrigger, Slide, AppBar, Toolbar, Typography, Container } from '@material-ui/core';
+import { Box, BottomNavigation, BottomNavigationAction, makeStyles, createStyles, useScrollTrigger, Slide, AppBar, Toolbar, Typography, Container, Fade } from '@material-ui/core';
 import { List, Code, ArrowBackIos, Comment, Details } from '@material-ui/icons';
 import { BeatLoader } from 'react-spinners';
 import ReactSwipe from 'react-swipe';
 import { IngredientList } from './IngredientList';
 import { Instruction } from './Instruction';
-import { Comments } from './Comments';
+import { RecipeMeta } from './RecipeMeta';
 import Rating from '@material-ui/lab/Rating';
 import { RecipeMetaPanel } from './RecipeMetaPanel';
 
@@ -63,47 +63,49 @@ export const RecipeDetails: React.FC<{ match: any, history: any }> = ({ match, h
 
 
   return (
-    <Box className={classes.box}>
-      {console.log(value)}
-      {!recipe && <div className={classes.loadingContainer}><BeatLoader size={5} margin="5px" /></div>}
-      {recipe &&
-        <>
-          <RecipeMetaPanel recipe={recipe} />
-          <ReactSwipe
-            className={classes.carousel}
-            swipeOptions={{
-              continuous: false,
-              
+      <Box className={classes.box}>
+        {console.log(value)}
+        {!recipe && <div className={classes.loadingContainer}><BeatLoader size={5} margin="5px" /></div>}
+        {recipe &&
+          <Fade in={true} timeout={500}>
+            <div>
+            <RecipeMetaPanel recipe={recipe} />
+            <ReactSwipe
+              className={classes.carousel}
+              swipeOptions={{
+                continuous: false,
+                
+              }}
+              ref={swipe}
+            >
+              <div className={classes.carouselItem}><IngredientList recipe={recipe} /></div>
+              <div className={classes.carouselItem}><Instruction instructionHTML={recipe.instruction} /></div>
+              <div className={classes.carouselItem}><RecipeMeta  recipe={recipe} /></div>
+            </ReactSwipe>
+            </div>
+          </Fade>
+        }
+        <BottomNavigation
+            value={value}
+            onChange={(event, newValue) => {
+              setValue(newValue);
+              console.log('newValue', newValue);
+              console.log(swipe)
+              if (swipe && swipe.current) { 
+                const swipedd = ((swipe.current as any).swipe as any);
+                console.log(swipedd.slide);
+                swipedd.slide(newValue)
+              };
             }}
-            ref={swipe}
+            showLabels
+            className={classes.bottomBar}
           >
-            <div className={classes.carouselItem}><IngredientList recipe={recipe} /></div>
-            <div className={classes.carouselItem}><Instruction instructionHTML={recipe.instruction} /></div>
-            <div className={classes.carouselItem}><Comments  recipe={recipe} /></div>
-          </ReactSwipe>
-        </>
-      }
-      <BottomNavigation
-          value={value}
-          onChange={(event, newValue) => {
-            setValue(newValue);
-            console.log('newValue', newValue);
-            console.log(swipe)
-            if (swipe && swipe.current) { 
-              const swipedd = ((swipe.current as any).swipe as any);
-              console.log(swipedd.slide);
-              swipedd.slide(newValue, 300)
-            };
-          }}
-          showLabels
-          className={classes.bottomBar}
-        >
-        <BottomNavigationAction value="-1" label="Back" onClick={() => history.goBack()} icon={<ArrowBackIos />} />
-        <BottomNavigationAction value="0" label="Ingredients" icon={<List />} />
-        <BottomNavigationAction value="1" label="Instructions" icon={<Code />} />
-        <BottomNavigationAction value="2" label="Details" icon={<Details />} />
+          <BottomNavigationAction value="-1" label="Back" onClick={() => history.goBack()} icon={<ArrowBackIos />} />
+          <BottomNavigationAction value="0" label="Ingredients" icon={<List />} />
+          <BottomNavigationAction value="1" label="Instructions" icon={<Code />} />
+          <BottomNavigationAction value="2" label="Details" icon={<Details />} />
 
-      </BottomNavigation>
-    </Box>
+        </BottomNavigation>
+      </Box>
   );
 }

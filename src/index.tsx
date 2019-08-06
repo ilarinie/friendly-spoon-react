@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { createMuiTheme } from '@material-ui/core';
-import { indigo, pink, red, green } from '@material-ui/core/colors';
+import { indigo, pink, red, green, teal } from '@material-ui/core/colors';
 import { ThemeProvider } from '@material-ui/styles';
 import { makeStore } from './state/Store';
 import { Provider } from 'react-redux';
@@ -12,9 +12,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 
 export const theme = createMuiTheme({
     palette: {
-        primary: {
-          main: '#004d40',
-        },
+        primary: teal,
         secondary: pink,
         error: red,
         // Used by `getContrastText()` to maximize the contrast between the background and
@@ -24,7 +22,9 @@ export const theme = createMuiTheme({
         // two indexes within its tonal palette.
         // E.g., shift from Red 500 to Red 300 or Red 700.
         tonalOffset: 0.2,
-    },
+        type: 'light'
+      },
+      
 });
 
 const state = makeStore();

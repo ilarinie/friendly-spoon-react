@@ -1,7 +1,7 @@
 import { Picture } from './Picture';
 import { RecipeTag } from './RecipeTag';
 import { DifficultyLevel } from './DifficultyLevel';
-import { Duration } from '@material-ui/core/styles';
+import { Duration } from './Duration';
 
 export interface RecipeMeta {
     id: number;

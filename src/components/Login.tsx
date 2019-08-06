@@ -35,7 +35,7 @@ export const Login: React.FC<{history: any}> = ({history}) => {
   const [ fadeIn, setFadeIn ] = useState(true);
 
   const dispatch = useDispatch();
-  const email = useField('string', 'Email address');
+  const email = useField('email', 'Email address');
   const password = useField('password','Password');
 
   const [ submitEnabled, setSubmitEnabled ] = useState(false);

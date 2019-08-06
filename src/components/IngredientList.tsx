@@ -6,7 +6,8 @@ export const useStyles = makeStyles({
   box: {
     height: '100%',
     overflowY: 'auto',
-    overflowX: 'hidden'
+    overflowX: 'hidden',
+    paddingTop: '2em'
   }
 })
 
@@ -16,7 +17,7 @@ export const IngredientList: React.FC<{recipe: RecipeFull}> = ({ recipe }) => {
 
   return (
     <Box className={classes.box}>
-      <Typography variant="h3">IngredientList</Typography>
+      <Typography variant="h4">Ingredients</Typography>
       <ul>
         {recipe.recipe_ingredients.map((ingredient, index) => (
           <li key={ingredient.ingredient.name}>{ingredient.ingredient.name}</li>
