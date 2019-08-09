@@ -12,6 +12,11 @@ code {
     monospace;
 }
 
+body,
+html {
+  position: fixed;
+}
+
 
 .dialog-enter {
   opacity: 0.01;
