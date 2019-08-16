@@ -1,6 +1,10 @@
 import React from 'react';
 import { RecipeFull } from '../../state/types/RecipeFull';
 import { Box, Typography, createStyles, makeStyles, Theme } from '@material-ui/core';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import { teal } from '@material-ui/core/colors';
+// @ts-ignore
+import { Textfit } from 'react-textfit';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -13,67 +17,35 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.palette.primary.contrastText,
       minHeight: '4em',
       display: 'flex',
-      justifyContent: 'space-between',
+      justifyContent: 'center',
       position: 'fixed',
       top: '4em',
       right: 0,
       left: 'auto',
       zIndex: 99,
+      textAlign: 'center',
     },
     recipeTitle: {
-      fontSize: '1.55rem',
-    },
-    recipeDescriptionContainer: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      flexWrap: 'wrap',
-      top: 0,
-      marginTop: '1em',
-    },
-    rating: {
-      width: '100px',
-    },
-    chip: {
-      margin: theme.spacing(1),
-    },
-    metaInfo: {
-      display: 'flex',
-      alignItems: 'center',
-    },
-    image: {
-      height: '70px',
-      borderRadius: '5px',
-      filter: 'sepia',
-    },
-    expansionPanel: {
-      width: '100vw',
-      position: 'fixed',
-      top: '4em',
-      right: 0,
-      zIndex: 99,
-      background: theme.palette.primary.light,
-      color: theme.palette.primary.contrastText,
-      // this is to force no rounded corners (enabled by default for first expansion panel in MUI)
-      borderRadius: '0 !important',
-    },
-    expandIcon: {
-      fill: theme.palette.primary.contrastText,
-    },
-    expansionPanelDetails: {
-      // position: 'fixed',
-      // top: '5em',
-      // right: 0
+      fontSize: '1.7rem',
+      maxWidth: '100%',
     },
   }),
 );
 
-export const RecipeMetaPanel: React.FC<{ recipe: RecipeFull }> = ({ recipe }) => {
+export const RecipeMetaPanel: React.FC<{ recipe: RecipeFull | null }> = ({ recipe }) => {
   const classes = useStyles();
   return (
     <Box className={classes.recipeHero}>
       <Typography className={classes.recipeTitle} variant="h6">
-        {recipe.name}
+        {recipe ? (
+          <Textfit mode="single" forceSingleModeWidth={false}>
+            {recipe.name}
+          </Textfit>
+        ) : (
+          <SkeletonTheme color={teal[300]} highlightColor="white">
+            <Skeleton width={300} />
+          </SkeletonTheme>
+        )}
       </Typography>
     </Box>
   );

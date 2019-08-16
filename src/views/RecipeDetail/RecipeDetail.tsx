@@ -3,7 +3,6 @@ import { doGet } from '../../services/ApiService';
 import { RecipeFull } from '../../state/types/RecipeFull';
 import { Box, BottomNavigation, BottomNavigationAction, makeStyles, createStyles, Fade } from '@material-ui/core';
 import { List, Code, ArrowBackIos, Details } from '@material-ui/icons';
-import { BeatLoader } from 'react-spinners';
 import ReactSwipe from 'react-swipe';
 import { IngredientList } from './IngredientsList';
 import { Instructions } from './Instructions';
@@ -49,11 +48,11 @@ export const RecipeDetails: React.FC<{ match: any; history: any }> = ({ match, h
 
   const [recipe, setRecipe] = useState(null as RecipeFull | null);
 
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState('2');
 
   useEffect(() => {
     const fetchRecipe = async () => {
-      const recipe = await doGet<RecipeFull>('/recipes/' + match.params.id);
+      const recipe =  await doGet<RecipeFull>('/recipes/' + match.params.id);
       setRecipe(recipe);
     };
     fetchRecipe();
@@ -62,39 +61,28 @@ export const RecipeDetails: React.FC<{ match: any; history: any }> = ({ match, h
   return (
     <Fade in={true}>
       <Box className={classes.box}>
-        {!recipe && (
-          <div className={classes.loadingContainer}>
-            <BeatLoader size={5} margin="5px" />
+        <RecipeMetaPanel recipe={recipe} />
+        <ReactSwipe
+          className={classes.carousel}
+          swipeOptions={{
+            continuous: true,
+          }}
+          ref={swipe}
+        >
+          <div className={classes.carouselItem}>
+            <IngredientList recipe={recipe} />
           </div>
-        )}
-        {recipe && (
-          <Fade in={true} timeout={500}>
-            <>
-              <RecipeMetaPanel recipe={recipe} />
-              <ReactSwipe
-                className={classes.carousel}
-                swipeOptions={{
-                  continuous: false,
-                }}
-                ref={swipe}
-              >
-                <div className={classes.carouselItem}>
-                  <IngredientList recipe={recipe} />
-                </div>
-                <div className={classes.carouselItem}>
-                  <Instructions instructionHTML={recipe.instruction} />
-                </div>
-                <div className={classes.carouselItem}>
-                  <RecipeMeta recipe={recipe} />
-                </div>
-              </ReactSwipe>
-            </>
-          </Fade>
-        )}
+          <div className={classes.carouselItem}>
+            <Instructions instructionHTML={recipe && recipe.instruction} />
+          </div>
+          <div className={classes.carouselItem}>
+            <RecipeMeta recipe={recipe} />
+          </div>
+        </ReactSwipe>
         <BottomNavigation
           value={value}
           onChange={(event, newValue) => {
-            if (newValue === "-1") {
+            if (newValue === '-1') {
               return;
             }
             setValue(newValue);

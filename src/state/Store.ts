@@ -8,21 +8,18 @@ import { AppAction } from './actions';
 export interface UIState {
   loginStatus: LOGIN_STATUS;
   userProfile: UserProfile | null;
-  searchTerm: string;
 }
 
 export interface DomainState {
   recipeList: RecipeMeta[];
+  searchTerm: string;
 }
-
 
 export interface State {
   uiState: UIState;
   domainState: DomainState;
 }
 
-
-
 export const makeStore = (): Store<State, AppAction> => {
-    return createStore(reducers);
+  return createStore(reducers);
 };

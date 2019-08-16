@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles, BottomNavigation, BottomNavigationAction } from '@material-ui/core';
-import { Restore, Favorite, LocationOn } from '@material-ui/icons';
+import { Restore, Favorite, LocationOn, PlusOne, CalendarToday } from '@material-ui/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { State } from '../../state/Store';
+import { SetSearchTerm } from '../../state/actions/DomainActions';
 
 const useStyles = makeStyles({
   bottomBar: {
@@ -14,20 +17,21 @@ const useStyles = makeStyles({
 export const RecipeListBottomBar: React.FC = () => {
   const classes = useStyles();
 
-  const [value, setValue] = useState('');
+  const recipes = useSelector((state: State) => state.domainState.recipeList);
+
+  const dispatch = useDispatch();
+
+  const handleBottomBarClick = (event: any, newValue: string) => {
+    if (newValue === '1') {
+      dispatch(SetSearchTerm(recipes[Math.floor(Math.random() * recipes.length)].name));
+    }
+  };
 
   return (
-    <BottomNavigation
-      value={value}
-      onChange={(event, newValue) => {
-        setValue(newValue);
-      }}
-      showLabels
-      className={classes.bottomBar}
-    >
-      <BottomNavigationAction label="Recents" icon={<Restore />} />
-      <BottomNavigationAction label="Favorites" icon={<Favorite />} />
-      <BottomNavigationAction label="Nearby" icon={<LocationOn />} />
+    <BottomNavigation onChange={handleBottomBarClick} showLabels className={classes.bottomBar}>
+      <BottomNavigationAction label="Random" value="1" icon={<Restore />} />
+      <BottomNavigationAction label="New Recipe" icon={<PlusOne />} />
+      <BottomNavigationAction label="Calendar" icon={<CalendarToday />} />
     </BottomNavigation>
   );
 };

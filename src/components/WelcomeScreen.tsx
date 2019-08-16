@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
-      height: '100%',
+      height: '100vh',
       alignItems: 'center',
       textAlign: 'center',
       background: theme.palette.primary.main,
@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme: Theme) =>
       top: 0,
       right: 0,
       color: theme.palette.primary.contrastText,
+      zIndex: 999,
     },
   }),
 );
@@ -27,14 +28,13 @@ export const WelcomeScreen: React.FC<{ timeout: number }> = ({ timeout }) => {
 
   useEffect(() => {
     const waitAWhile = async () => {
-      await new Promise(resolve => setTimeout(resolve, timeout / 1.5));
-      setFadeIn(false);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      // setFadeIn(false);
     };
     waitAWhile();
   }, [timeout]);
-
   return (
-    <Fade in={fadeIn} timeout={timeout / 3} mountOnEnter={true}>
+    <Fade in={fadeIn} timeout={600} mountOnEnter={true}>
       <Box className={classes.box}>
         <Typography variant="h2">Welcome</Typography>
         <Typography variant="h2">To</Typography>

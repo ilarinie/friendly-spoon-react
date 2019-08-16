@@ -1,25 +1,12 @@
 import React, { useEffect } from 'react';
-import { AppBar, Toolbar, Typography, InputBase, useScrollTrigger, makeStyles, createStyles } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, InputBase, makeStyles, createStyles } from '@material-ui/core';
 import { Search } from '@material-ui/icons';
 import { useField } from '../hooks/UseField';
-import { SetSearchTerm } from '../state/actions/UIActions';
 import { useDispatch } from 'react-redux';
 import { fade } from '@material-ui/core/styles';
-
-function ElevationScroll(props: any) {
-  const { children } = props;
-  // Note that you normally won't need to set the window ref as useScrollTrigger
-  // will default to window.
-  // This is only being set here because the demo is in an iframe.
-  const trigger = useScrollTrigger({
-    disableHysteresis: true,
-    threshold: 0,
-  });
-
-  return React.cloneElement(children, {
-    elevation: trigger ? 4 : 0,
-  });
-}
+import { SetSearchTerm } from '../state/actions/DomainActions';
+import { History } from 'history';
+import { withRouter } from 'react-router-dom';
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -61,7 +48,7 @@ const useStyles = makeStyles(theme =>
   }),
 );
 
-export const FsAppBar: React.FC = () => {
+const FsAppBarImpl: React.FC<{ history: History }> = ({ history }) => {
   const dispatch = useDispatch();
   const searchTerm = useField('text', 'Search...');
   const classes = useStyles();
@@ -71,27 +58,27 @@ export const FsAppBar: React.FC = () => {
   }, [dispatch, searchTerm]);
 
   return (
-    <ElevationScroll>
-      <AppBar position="fixed">
-        <Toolbar>
-          <Typography className={classes.appLogo} variant="body2">
-            FS
-          </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <Search />
-            </div>
-            <InputBase
-              {...searchTerm}
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
+    <AppBar style={{ boxShadow: 'none' }} position="fixed">
+      <Toolbar>
+        <Typography onClick={() => history.push('/')} className={classes.appLogo} variant="body2">
+          FS
+        </Typography>
+        <div className={classes.search}>
+          <div className={classes.searchIcon}>
+            <Search />
           </div>
-        </Toolbar>
-      </AppBar>
-    </ElevationScroll>
+          <InputBase
+            {...searchTerm}
+            classes={{
+              root: classes.inputRoot,
+              input: classes.inputInput,
+            }}
+            inputProps={{ 'aria-label': 'search' }}
+          />
+        </div>
+      </Toolbar>
+    </AppBar>
   );
 };
+
+export const FsAppBar = withRouter(FsAppBarImpl);

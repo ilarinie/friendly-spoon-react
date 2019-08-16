@@ -16,6 +16,7 @@ import { RecipeDetails } from './views/RecipeDetail/RecipeDetail';
 import { FsAppBar } from './components/FsAppBar';
 // @ts-ignore
 import Div100vh from 'react-div-100vh';
+import { RecipeEditor } from './views/RecipeEditor';
 
 const WELCOME_SCREEN_TIMEOUT_MS = 1000;
 
@@ -28,6 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
     contentContainer: {
       paddingTop: '50px',
       height: '100%',
+      width: '100vw',
       background: 'rgba(255,255,255,0.9)',
       overflowY: 'auto',
       overflowX: 'hidden',
@@ -36,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const App: React.FC<{ history: any }> = ({ history }) => {
+const App: React.FC = () => {
   const classes = useStyles();
   const loginStatus = useSelector((state: State) => state.uiState.loginStatus);
 
@@ -74,6 +76,7 @@ const App: React.FC<{ history: any }> = ({ history }) => {
             <Switch>
               <Route exact path="/" component={RecipeList} />
               <Route path="/recipes/:id" component={RecipeDetails} />
+              <Route path="/new_recipe" component={RecipeEditor} />
             </Switch>
           </div>
         </>

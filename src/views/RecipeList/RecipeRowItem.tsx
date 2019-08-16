@@ -48,7 +48,7 @@ export const Recipe: React.FC<{ recipe: RecipeMeta; onClick: any }> = ({ recipe,
             className={classes.avatar}
             src={
               recipe.coverpicture
-                ? process.env.REACT_APP_API_URL + recipe.coverpicture.picture.medium.url
+                ? process.env.REACT_APP_API_URL + recipe.coverpicture.picture.thumb.url
                 : 'https://via.placeholder.com/80'
             }
           />

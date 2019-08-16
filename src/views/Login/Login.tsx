@@ -12,8 +12,10 @@ import { RecipeMeta } from '../../state/types/RecipeMeta';
 const useStyles = makeStyles({
   box: {
     display: 'flex',
+    justifyContent: 'center',
     width: '100%',
-    height: '100%'
+    height: '100%',
+    padding: '2em'
   },
   fieldBox: {
     margin: '1em auto',

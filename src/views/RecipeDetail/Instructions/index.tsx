@@ -1,12 +1,18 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import { RecipeDetailSubContainer } from '../RecipeDetailSubContainer';
+import { RecipeDetailSubtitle } from '../RecipeDetailSubtitle';
 
-export const Instructions: React.FC<{ instructionHTML: string }> = ({ instructionHTML }) => {
+const useStyles = makeStyles({
+  instructionContainer: {},
+});
+
+export const Instructions: React.FC<{ instructionHTML: string | null }> = ({ instructionHTML }) => {
+  const classes = useStyles();
   return (
     <RecipeDetailSubContainer>
-      <Typography variant="h4">Instruction</Typography>
-      <div dangerouslySetInnerHTML={{ __html: instructionHTML }} />
+      <RecipeDetailSubtitle>Instructions</RecipeDetailSubtitle>
+      {instructionHTML && <div className={classes.instructionContainer} dangerouslySetInnerHTML={{ __html: instructionHTML }} />}
     </RecipeDetailSubContainer>
   );
 };

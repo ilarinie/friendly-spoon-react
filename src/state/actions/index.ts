@@ -1,4 +1,4 @@
 import { UIAction } from './UIActions';
-import { DomainAction } from './DomainActions';
+import { DomainAction } from './DomainActions';
 
 export type AppAction = UIAction | DomainAction;

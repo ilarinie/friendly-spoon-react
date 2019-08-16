@@ -6,6 +6,7 @@ import Skeleton from 'react-loading-skeleton';
 import { Recipe } from './RecipeRowItem';
 import { RecipeListBottomBar } from './RecipeListBottomBar';
 import { filterRecipes } from '../../utils/filterRecipes';
+import { History } from 'history';
 
 const useStyles = makeStyles({
   recipeBox: {
@@ -24,10 +25,10 @@ const useStyles = makeStyles({
   },
 });
 
-export const RecipeList: React.FC<{ history: any }> = ({ history }) => {
+export const RecipeList: React.FC<{ history: History }> = ({ history }) => {
   const classes = useStyles();
 
-  const searchTerm = useSelector((state: State) => state.uiState.searchTerm);
+  const searchTerm = useSelector((state: State) => state.domainState.searchTerm);
   const recipes = useSelector((state: State) => state.domainState.recipeList);
 
   const [visibleRecipes, setVisibleRecipes] = useState(recipes);
